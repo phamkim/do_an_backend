@@ -39,16 +39,15 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody @Valid ProductDto productDto) {
-        productDto.setId(null);
         ProductDto result = productService.save(productDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid ProductDto productDto, @PathVariable UUID id) {
-        Optional<ProductDto> optionalProductDto = productService.findById(id);
-        return optionalProductDto.map(result -> {
-            productService.save(productDto);
+        Optional<ProductDto> productDtoOptional = productService.findById(id);
+        return productDtoOptional.map(e -> {
+            ProductDto result = productService.update(productDto, id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

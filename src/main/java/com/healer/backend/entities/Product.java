@@ -17,7 +17,7 @@ public class Product {
     @Id
     @Type(type = "uuid-char")
     @Column(name = "id",updatable = false, nullable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id =UUID.randomUUID();
 
     @Column(name = "name")
     private String name;
@@ -30,6 +30,10 @@ public class Product {
 
     @Column(name = "price")
     private float price;
+
+    @Column(name = "quantity") // số lượng sản phẩm
+    private float quantity;
+
 
     @Column(name = "discount")
     private float discount;
@@ -48,11 +52,11 @@ public class Product {
     /*
     *  1 product sẽ cho trong nhiều order_detail
     * */
-    @OneToMany(
-            mappedBy = "product",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<OrderDetail> orderDetails;
+//    @OneToMany(
+//            mappedBy = "product",
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    private List<OrderDetail> orderDetails;
 
 
 }

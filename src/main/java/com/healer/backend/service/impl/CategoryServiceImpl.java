@@ -21,7 +21,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-
     @Autowired
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
@@ -43,16 +42,26 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Optional<CategoryDto> findById(UUID id) {
         Optional<Category> category = categoryRepository.findById(id);
-
         return category.map(result -> modelMapper.map(result, CategoryDto.class));
+
     }
 
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
         Category category = new Category();
+        toCategory(category,categoryDto);
+        return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
+    }
+
+    public void toCategory(Category category, CategoryDto categoryDto){
         category.setTitle(categoryDto.getTitle());
         category.setImage(categoryDto.getImage());
-//        category.setProducts();
+    }
+
+    @Override
+    public CategoryDto update(CategoryDto categoryDto, UUID id) {
+        Category category  = categoryRepository.findById(id).orElse(new Category());
+        toCategory(category, categoryDto);
         return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
     }
 

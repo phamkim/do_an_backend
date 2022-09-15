@@ -39,17 +39,16 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@Valid @RequestBody CategoryDto categoryDto) {
-        categoryDto.setId(null);
+    public ResponseEntity<?> insert(@RequestBody @Valid  CategoryDto categoryDto) {
         CategoryDto result = categoryService.save(categoryDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid CategoryDto categoryDto, @PathVariable UUID id) {
-        Optional<CategoryDto> optionalOrderDto = categoryService.findById(id);
-        return optionalOrderDto.map(result -> {
-            categoryService.save(categoryDto);
+        Optional<CategoryDto> categoryDtoOptional = categoryService.findById(id);
+        return categoryDtoOptional.map(e -> {
+            CategoryDto result = categoryService.update(categoryDto, id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

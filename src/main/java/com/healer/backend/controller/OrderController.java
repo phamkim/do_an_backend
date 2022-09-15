@@ -37,16 +37,15 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody @Valid OrderDto orderDto) {
-        orderDto.setId(null);
         OrderDto result = orderService.save(orderDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid OrderDto orderDto, @PathVariable UUID id) {
-        Optional<OrderDto> optionalOrderDto = orderService.findById(id);
-        return optionalOrderDto.map(result -> {
-            orderService.save(orderDto);
+        Optional<OrderDto> orderDtoOptional = orderService.findById(id);
+        return orderDtoOptional.map(e -> {
+            OrderDto result = orderService.update(orderDto, id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -54,11 +54,11 @@ public class User {
     /*
     *  1 user thì sẽ có nhiều order
     * */
-    @OneToMany(
-            mappedBy = "user",
-            fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Order> orders;
+//    @OneToMany(
+//            mappedBy = "user",
+//            fetch = FetchType.LAZY,
+//            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+//    private List<Order> orders;
 
 
 }

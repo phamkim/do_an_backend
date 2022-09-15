@@ -36,17 +36,16 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody @Valid UserDto userDto) {
-        userDto.setId(null);
+    public ResponseEntity<UserDto> insert(@RequestBody @Valid UserDto userDto) {
         UserDto result = userService.save(userDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid UserDto userDto, @PathVariable UUID id) {
-        Optional<UserDto> optionalUserDto = userService.findById(id);
-        return optionalUserDto.map(result -> {
-            userService.save(userDto);
+    public ResponseEntity<UserDto> update(@RequestBody @Valid UserDto userDto, @PathVariable UUID id) {
+        Optional<UserDto> userDtoOptional = userService.findById(id);
+        return userDtoOptional.map(e -> {
+            UserDto result = userService.update(userDto, id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.modelmapper.ModelMapper;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +35,17 @@ public class ProductDto {
     @NotEmpty(message = "not blank")
     private float price;
 
+    @NotEmpty(message = "not blank") // số lượng sản phẩm
+    private float quantity;
+
     @NotEmpty(message = "not blank")
     private float discount;
 
 
-    @NotEmpty(message = "not blank")
-    private CategoryDto categoryDto;
+    private CategoryDto category;
 
 
-    private List<OrderDetailDto> orderDetailDtoList;
+//    private List<OrderDetailDto> orderDetailDtoList = new ArrayList<>();
 
 
 

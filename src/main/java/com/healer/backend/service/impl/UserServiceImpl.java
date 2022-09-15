@@ -30,20 +30,31 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> findAll() {
         return userRepository.findAll()
                 .stream()
-                .map(user -> modelMapper.map(user,UserDto.class))
+                .map(user -> modelMapper.map(user, UserDto.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     public Optional<UserDto> findById(UUID id) {
         Optional<User> user = userRepository.findById(id);
+        return user.map(result -> modelMapper.map(result, UserDto.class));
+    }
 
-        return user.map(result -> modelMapper.map(result,UserDto.class));
+    @Override
+    public UserDto update(UserDto userDto, UUID id) {
+        User user = userRepository.findById(id).orElse(new User());
+        setUser(user, userDto);
+        return modelMapper.map(userRepository.save(user), UserDto.class);
     }
 
     @Override
     public UserDto save(UserDto userDto) {
         User user = new User();
+        setUser(user, userDto);
+        return modelMapper.map(userRepository.save(user), UserDto.class);
+    }
+
+    public void setUser(User user, UserDto userDto) {
         user.setName(userDto.getName());
         user.setBirthday(userDto.getBirthday());
         user.setGender(userDto.getGender());
@@ -53,8 +64,6 @@ public class UserServiceImpl implements UserService {
         user.setPhone(userDto.getPhone());
         user.setAddress(userDto.getAddress());
         user.setPermission(userDto.getPermission());
-//        user.setOrders();
-        return modelMapper.map(userRepository.save(user),UserDto.class);
     }
 
     @Override

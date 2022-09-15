@@ -30,8 +30,6 @@ public class CategoryDto {
     @NotEmpty(message = "not blank")
     private String image;
 
-    private List<ProductDto> productDtoList;
-
-
+//    private List<ProductDto> productDtoList = new ArrayList<>();
 
 }

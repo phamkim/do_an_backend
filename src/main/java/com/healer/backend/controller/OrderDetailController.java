@@ -1,7 +1,6 @@
 package com.healer.backend.controller;
 
 import com.healer.backend.dto.OrderDetailDto;
-import com.healer.backend.dto.OrderDto;
 import com.healer.backend.service.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,16 +37,15 @@ public class OrderDetailController {
 
     @PostMapping
     public ResponseEntity<?> insert(@RequestBody @Valid OrderDetailDto orderDetailDto) {
-        orderDetailDto.setId(null);
         OrderDetailDto result = orderDetailService.save(orderDetailDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestBody @Valid OrderDetailDto orderDetailDto, @PathVariable UUID id) {
-        Optional<OrderDetailDto> optionalOrderDto = orderDetailService.findById(id);
-        return optionalOrderDto.map(result -> {
-            orderDetailService.save(orderDetailDto);
+        Optional<OrderDetailDto> orderDetailDtoOptional = orderDetailService.findById(id);
+        return orderDetailDtoOptional.map(e -> {
+            OrderDetailDto result = orderDetailService.update(orderDetailDto, id);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

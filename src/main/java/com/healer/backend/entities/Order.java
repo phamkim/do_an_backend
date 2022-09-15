@@ -19,7 +19,7 @@ public class Order {
     @Id
     @Type(type = "uuid-char")
     @Column(name = "id", updatable = false, nullable = false)
-    private UUID id = UUID.randomUUID();
+    private UUID id =UUID.randomUUID();
 
     @Column(name = "order_date") // ngày tạo đơn hàng
     private LocalDate orderDate;
@@ -38,11 +38,11 @@ public class Order {
      *   1 order có nhiều orderDetail
      *  CascadeType.ALL : khi xóa order thì sẽ xóa luôn các order_detail
      * */
-    @OneToMany(
-            mappedBy = "order",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private List<OrderDetail> orderDetails;
+//    @OneToMany(
+//            mappedBy = "order",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private List<OrderDetail> orderDetails;
 
 
     /*

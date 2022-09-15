@@ -11,5 +11,7 @@ public interface GeneralService<T> {
 
     T save(T t);
 
+    T update(T t, UUID id);
+
     void deleteById(UUID id);
 }

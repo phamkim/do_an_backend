@@ -1,19 +1,14 @@
 package com.healer.backend.dto;
 
-import javax.persistence.Column;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.UUID;
-
-import com.healer.backend.entities.Order;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -35,8 +30,8 @@ public class UserDto {
     private String password;
 
     @NotEmpty(message = "not blank")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Past()
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @Past
     private LocalDate birthday;
 
     @NotEmpty(message = "not blank")
@@ -56,8 +51,7 @@ public class UserDto {
     private String permission;
 
 
-    private List<OrderDto> orderDtoList;
-
+//    private List<OrderDto> orderDtoList = new ArrayList<>();
 
 
 }

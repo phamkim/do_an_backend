@@ -26,9 +26,9 @@ public class OrderDetailDto {
     private float quantity;
 
     @NotEmpty(message = "not blank")
-    private ProductDto productDto;
+    private ProductDto product;
 
     @NotEmpty(message = "not blank")
-    private OrderDto orderDto;
+    private OrderDto order;
 
 }

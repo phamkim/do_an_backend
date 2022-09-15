@@ -1,15 +1,20 @@
 package com.healer.backend.entities;
 
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "categorys")
+@Table(name = "categories")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -17,7 +22,7 @@ import java.util.UUID;
 public class Category {
     @Id
     @Type(type = "uuid-char")
-    @Column(name = "id",updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id = UUID.randomUUID();
 
     @Column(name = "title")
@@ -28,12 +33,12 @@ public class Category {
 
 
     /*
-    * 1 danh phục sản phẩm thì có nhiều sản phẩm
-    * */
-    @OneToMany(
-            mappedBy = "category",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private List<Product> products;
+     * 1 danh phục sản phẩm thì có nhiều sản phẩm
+     * */
+//    @OneToMany(
+//            mappedBy = "category",
+//            fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private List<Product> products;
 
 }
