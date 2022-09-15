@@ -9,6 +9,6 @@ class ControlView extends GetWidget<AuthViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return (false) ? HomeView() : const LoginView();
+    return (true) ? HomeView() : const LoginView();
   }
 }

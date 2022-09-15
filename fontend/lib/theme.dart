@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fontend/views/constance.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 abstract class AppColors {
@@ -76,6 +77,12 @@ class AppTheme {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(primary: AppColors.textDark),
         ),
+        inputDecorationTheme: const InputDecorationTheme(
+          suffixIconColor: AppColors.primary,
+          prefixIconColor: AppColors.primary,
+
+        ),
+
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(primary: AppColors.primary),
         ),

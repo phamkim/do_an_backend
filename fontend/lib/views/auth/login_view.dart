@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import '../../core/viewmodels/auth_view_model.dart';
 import '../constance.dart';
 import '../widgets/custom_social_button.dart';
-import 'package:lottie/lottie.dart';
-
 import '../widgets/login_form.dart';
 
 class LoginView extends GetWidget<AuthViewModel> {
