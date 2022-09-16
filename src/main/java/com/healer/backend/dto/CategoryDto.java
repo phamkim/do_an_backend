@@ -1,20 +1,13 @@
 package com.healer.backend.dto;
 
-import javax.persistence.Column;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import com.healer.backend.entities.Category;
-import com.healer.backend.entities.Product;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,12 +17,10 @@ public class CategoryDto {
 
     private UUID id;
 
-    @NotEmpty(message = "not blank")
-    private String title;
+    @NotBlank(message = "name not blank")
+    private String name;
 
-    @NotEmpty(message = "not blank")
+    @NotBlank(message = "image not blank")
     private String image;
-
-//    private List<ProductDto> productDtoList = new ArrayList<>();
 
 }

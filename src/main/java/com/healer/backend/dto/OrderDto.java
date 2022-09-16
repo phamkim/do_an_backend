@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,22 +21,17 @@ public class OrderDto {
 
     private UUID id;
 
-    @NotEmpty(message = "not blank")
+    @NotBlank(message = "not blank")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
-
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate paymentDate;
 
-    @NotEmpty(message = "not blank")
+    @NotBlank(message = "state not blank")
     private String state;
 
-//    @NotEmpty(message = "not blank")
-//    private List<OrderDetailDto> orderDetailDtoList = new ArrayList<>();
-
-    @NotEmpty(message = "not blank")
+    @NotEmpty(message = "user not empty")
     private UserDto user;
-
 
 }

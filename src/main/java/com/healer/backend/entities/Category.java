@@ -25,20 +25,10 @@ public class Category {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id = UUID.randomUUID();
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "image")
     private String image;
-
-
-    /*
-     * 1 danh phục sản phẩm thì có nhiều sản phẩm
-     * */
-//    @OneToMany(
-//            mappedBy = "category",
-//            fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private List<Product> products;
 
 }

@@ -1,11 +1,16 @@
 package com.healer.backend.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 
@@ -18,7 +23,7 @@ import java.util.UUID;
 public class User {
     @Id
     @Type(type = "uuid-char")
-    @Column(name = "id",updatable = false, nullable = false)
+    @Column(name = "id", updatable = false, nullable = false)
     private UUID id = UUID.randomUUID();
 
     @Column(name = "name")
@@ -45,20 +50,7 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
-    /*
-    * phân quyền cho user: admin, employee, customer, shipper
-    * */
     @Column(name = "permission")
     private String permission;
-
-    /*
-    *  1 user thì sẽ có nhiều order
-    * */
-//    @OneToMany(
-//            mappedBy = "user",
-//            fetch = FetchType.LAZY,
-//            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-//    private List<Order> orders;
-
 
 }

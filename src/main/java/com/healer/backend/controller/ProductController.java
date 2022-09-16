@@ -1,9 +1,7 @@
 package com.healer.backend.controller;
 
-import com.healer.backend.dto.OrderDto;
 import com.healer.backend.dto.ProductDto;
-import com.healer.backend.service.OrderService;
-import com.healer.backend.service.ProductService;
+import com.healer.backend.service.Interface.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/product")
 public class ProductController {
-    private final ProductService productService;
+    private final IProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(IProductService productService) {
         this.productService = productService;
     }
 

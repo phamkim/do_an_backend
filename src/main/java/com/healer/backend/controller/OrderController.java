@@ -2,7 +2,7 @@ package com.healer.backend.controller;
 
 
 import com.healer.backend.dto.OrderDto;
-import com.healer.backend.service.OrderService;
+import com.healer.backend.service.Interface.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/order")
 public class OrderController {
-    private final OrderService orderService;
+    private final IOrderService orderService;
 
     @Autowired
-    public OrderController(OrderService orderService) {
+    public OrderController(IOrderService orderService) {
         this.orderService = orderService;
     }
 

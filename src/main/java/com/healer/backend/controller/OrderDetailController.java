@@ -1,7 +1,7 @@
 package com.healer.backend.controller;
 
 import com.healer.backend.dto.OrderDetailDto;
-import com.healer.backend.service.OrderDetailService;
+import com.healer.backend.service.Interface.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +16,10 @@ import java.util.UUID;
 @RequestMapping("/api/v1/order_detail")
 public class OrderDetailController {
 
-    private final OrderDetailService orderDetailService;
+    private final IOrderDetailService orderDetailService;
 
     @Autowired
-    public OrderDetailController(OrderDetailService orderDetailService) {
+    public OrderDetailController(IOrderDetailService orderDetailService) {
         this.orderDetailService = orderDetailService;
     }
 
@@ -31,8 +31,7 @@ public class OrderDetailController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderDetailDto> findById(@PathVariable UUID id) {
         Optional<OrderDetailDto> orderDetailDto = orderDetailService.findById(id);
-        return orderDetailDto.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return orderDetailDto.map(result -> new ResponseEntity<>(result, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping

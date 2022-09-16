@@ -2,7 +2,7 @@ package com.healer.backend.controller;
 
 
 import com.healer.backend.dto.CategoryDto;
-import com.healer.backend.service.CategoryService;
+import com.healer.backend.service.Interface.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +15,14 @@ import java.util.UUID;
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1/category")
 public class CategoryController {
 
-    private final CategoryService categoryService;
+    private final ICategoryService categoryService;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(ICategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
@@ -39,7 +40,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody @Valid  CategoryDto categoryDto) {
+    public ResponseEntity<?> insert(@RequestBody @Valid CategoryDto categoryDto) {
         CategoryDto result = categoryService.save(categoryDto);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

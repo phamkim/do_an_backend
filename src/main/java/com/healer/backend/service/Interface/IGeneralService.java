@@ -1,10 +1,10 @@
-package com.healer.backend.service;
+package com.healer.backend.service.Interface;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface GeneralService<T> {
+public interface IGeneralService<T> {
     List<T> findAll();
 
     Optional<T> findById(UUID id);
@@ -14,4 +14,5 @@ public interface GeneralService<T> {
     T update(T t, UUID id);
 
     void deleteById(UUID id);
+
 }

@@ -1,18 +1,12 @@
 package com.healer.backend.dto;
 
-import com.healer.backend.entities.Order;
-import com.healer.backend.entities.OrderDetail;
-import com.healer.backend.entities.Product;
-import com.healer.backend.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -20,15 +14,15 @@ import java.util.UUID;
 @Setter
 @Getter
 public class OrderDetailDto {
-    private UUID id ;
+    private UUID id;
 
-    @NotEmpty(message = "not blank")
+    @NotBlank(message = "quantity not blank")
     private float quantity;
 
-    @NotEmpty(message = "not blank")
+    @NotEmpty(message = "product not empty")
     private ProductDto product;
 
-    @NotEmpty(message = "not blank")
+    @NotEmpty(message = "order not empty")
     private OrderDto order;
 
 }
