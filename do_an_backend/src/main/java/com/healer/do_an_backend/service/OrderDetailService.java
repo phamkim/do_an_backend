@@ -27,7 +27,6 @@ public class OrderDetailService implements IOrderDetailService {
     private final IOrderRepository orderRepository;
     private final IProductRepository productRepository;
 
-
     @Autowired
     public OrderDetailService(IOrderDetailRepository orderDetailRepository, IProductRepository productRepository, IOrderRepository orderRepository) {
         this.orderDetailRepository = orderDetailRepository;
@@ -39,7 +38,7 @@ public class OrderDetailService implements IOrderDetailService {
     public List<OrderDetailDto> findAll() {
         return orderDetailRepository.findAll()
                 .stream()
-                .map(orderDetail -> modelMapper.map(orderDetail, OrderDetailDto.class))
+                .map(result -> modelMapper.map(result, OrderDetailDto.class))
                 .collect(Collectors.toList());
     }
 
@@ -71,12 +70,12 @@ public class OrderDetailService implements IOrderDetailService {
                 return product;
             });
         }
-        if (!ObjectUtils.isEmpty(orderDetailDto.getOrder())) {
-            orderRepository.findById(orderDetailDto.getOrder().getId()).map(order -> {
-                orderDetail.setOrder(order);
-                return order;
-            });
-        }
+//        if (!ObjectUtils.isEmpty(orderDetailDto.getOrder())) {
+//            orderRepository.findById(orderDetailDto.getOrder().getId()).map(order -> {
+//                orderDetail.setOrder(order);
+//                return order;
+//            });
+//        }
     }
 
     @Override

@@ -41,7 +41,7 @@ public class Order {
      *   1 order có nhiều orderDetail
      *  CascadeType.ALL : khi xóa order thì sẽ xóa luôn các order_detail
      * */
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderDetail> orderDetails;
 
 

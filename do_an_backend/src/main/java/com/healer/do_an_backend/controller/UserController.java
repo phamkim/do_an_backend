@@ -1,7 +1,9 @@
 package com.healer.do_an_backend.controller;
 
-import com.healer.backend.dto.UserDto;
-import com.healer.backend.service.Interface.IUserService;
+import com.healer.do_an_backend.dto.ProductDto;
+import com.healer.do_an_backend.dto.UserDto;
+import com.healer.do_an_backend.entities.ResponseObject;
+import com.healer.do_an_backend.service.Interface.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,40 +27,68 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDto>> findAll() {
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    public ResponseEntity<ResponseObject> findAll() {
+        try {
+            List<UserDto> result = userService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable UUID id) {
-        Optional<UserDto> userDto = userService.findById(id);
-        return userDto.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> findById(@PathVariable UUID id) {
+        try {
+            Optional<UserDto> result = userService.findById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user found", result));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> insert(@RequestBody @Valid UserDto userDto) {
-        UserDto result = userService.save(userDto);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid UserDto userDto) {
+        try {
+            UserDto result = userService.save(userDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> update(@RequestBody @Valid UserDto userDto, @PathVariable UUID id) {
-        Optional<UserDto> userDtoOptional = userService.findById(id);
-        return userDtoOptional.map(e -> {
-            UserDto result = userService.update(userDto, id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> update(@RequestBody @Valid UserDto userDto, @PathVariable UUID id) {
+        try {
+            Optional<UserDto> user = userService.findById(id);
+            if (user.isPresent()) {
+                UserDto result = userService.update(userDto, id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user founded", user));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<UserDto> deleteById(@PathVariable UUID id) {
-        Optional<UserDto> userDto = userService.findById(id);
-        return userDto.map(result -> {
-            userService.deleteById(id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> deleteById(@PathVariable UUID id) {
+        try {
+            Optional<UserDto> user = userService.findById(id);
+            if (user.isPresent()) {
+                userService.deleteById(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", user));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user founded", user));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

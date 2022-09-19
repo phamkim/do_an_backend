@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,8 +25,6 @@ public class Product {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "image")
-    private String image;
 
     @Column(name = "description")
     private String description;
@@ -38,7 +37,11 @@ public class Product {
 
     @Column(name = "discount")
     private float discount;
-
+    /*
+     * 1 product sẽ có nhiều image url
+     * */
+    @Column(name = "images")
+    private String images;
 
     /*
      * nhiều product thì có trong 1 category
@@ -46,5 +49,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     private Category category;
+
+
+
+
 
 }

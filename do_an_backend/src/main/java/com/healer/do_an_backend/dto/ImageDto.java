@@ -6,23 +6,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
-public class OrderDetailDto {
+public class ImageDto {
+
     private UUID id;
 
-    @NotBlank(message = "quantity not blank")
-    private float quantity;
+    @NotBlank(message = "name not blank")
+    private String name;
 
-    @NotEmpty(message = "product not empty")
-    private ProductDto product;
+    @NotBlank(message = "type not blank")
+    private String type;
 
-//    @NotEmpty(message = "order not empty")
-//    private OrderDto order;
+    @NotBlank(message = "value not blank")
+    private byte[] value;
 
 }

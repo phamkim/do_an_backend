@@ -2,6 +2,7 @@ package com.healer.do_an_backend.controller;
 
 
 import com.healer.do_an_backend.dto.CategoryDto;
+import com.healer.do_an_backend.entities.ResponseObject;
 import com.healer.do_an_backend.service.Interface.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,41 +27,71 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
+
     @GetMapping
-    public ResponseEntity<List<CategoryDto>> findAll() {
-        return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
+    public ResponseEntity<ResponseObject> findAll() {
+        try {
+            List<CategoryDto> result = categoryService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> findById(@PathVariable UUID id) {
-        Optional<CategoryDto> categoryDto = categoryService.findById(id);
-        return categoryDto.map(result -> {
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> findById(@PathVariable UUID id) {
+        try {
+            Optional<CategoryDto> result = categoryService.findById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user found", result));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    @PostMapping
-    public ResponseEntity<?> insert(@RequestBody @Valid CategoryDto categoryDto) {
-        CategoryDto result = categoryService.save(categoryDto);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    @PostMapping()
+    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid CategoryDto categoryDto) {
+        try {
+            CategoryDto result = categoryService.save(categoryDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid CategoryDto categoryDto, @PathVariable UUID id) {
-        Optional<CategoryDto> categoryDtoOptional = categoryService.findById(id);
-        return categoryDtoOptional.map(e -> {
-            CategoryDto result = categoryService.update(categoryDto, id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> update(@RequestBody @Valid CategoryDto categoryDto, @PathVariable UUID id) {
+
+        try {
+            Optional<CategoryDto> category = categoryService.findById(id);
+            if (category.isPresent()) {
+                CategoryDto result = categoryService.update(categoryDto, id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user founded", category));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<CategoryDto> deleteById(@PathVariable UUID id) {
-        Optional<CategoryDto> categoryDto = categoryService.findById(id);
-        return categoryDto.map(result -> {
-            categoryService.deleteById(id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> deleteById(@PathVariable UUID id) {
+
+        try {
+            Optional<CategoryDto> category = categoryService.findById(id);
+            if (category.isPresent()) {
+                categoryService.deleteById(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", category));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no user founded", category));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

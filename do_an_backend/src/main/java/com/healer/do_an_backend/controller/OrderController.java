@@ -2,6 +2,7 @@ package com.healer.do_an_backend.controller;
 
 
 import com.healer.do_an_backend.dto.OrderDto;
+import com.healer.do_an_backend.entities.ResponseObject;
 import com.healer.do_an_backend.service.Interface.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -25,40 +27,71 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDto>> findAll() {
-        return new ResponseEntity<>(orderService.findAll(), HttpStatus.OK);
+    public ResponseEntity<ResponseObject> findAll() {
+        try {
+            List<OrderDto> result = orderService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDto> findById(@PathVariable UUID id) {
-        Optional<OrderDto> orderDto = orderService.findById(id);
-        return orderDto.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> findById(@PathVariable UUID id) {
+
+        try {
+            Optional<OrderDto> result = orderService.findById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order found", result));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody @Valid OrderDto orderDto) {
-        OrderDto result = orderService.save(orderDto);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid OrderDto orderDto) {
+        try {
+            OrderDto result = orderService.save(orderDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid OrderDto orderDto, @PathVariable UUID id) {
-        Optional<OrderDto> orderDtoOptional = orderService.findById(id);
-        return orderDtoOptional.map(e -> {
-            OrderDto result = orderService.update(orderDto, id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> update(@RequestBody @Valid OrderDto orderDto, @PathVariable UUID id) {
+        try {
+            Optional<OrderDto> order = orderService.findById(id);
+            if (order.isPresent()) {
+                OrderDto result = orderService.update(orderDto, id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order founded", order));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<OrderDto> deleteById(@PathVariable UUID id) {
-        Optional<OrderDto> orderDto = orderService.findById(id);
-        return orderDto.map(result -> {
-            orderService.deleteById(id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> deleteById(@PathVariable UUID id) {
+
+        try {
+            Optional<OrderDto> order = orderService.findById(id);
+            if (order.isPresent()) {
+                orderService.deleteById(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", order));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order founded", order));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

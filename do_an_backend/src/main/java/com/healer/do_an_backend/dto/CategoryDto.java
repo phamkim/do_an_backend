@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -20,7 +19,7 @@ public class CategoryDto {
     @NotBlank(message = "name not blank")
     private String name;
 
-    @NotBlank(message = "image not blank")
+    @NotBlank(message = "name not blank")
     private String image;
 
 }

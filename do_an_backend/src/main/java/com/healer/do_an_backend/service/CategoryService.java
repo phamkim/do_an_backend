@@ -18,14 +18,19 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private ModelMapper modelMapper;
     private final ICategoryRepository categoryRepository;
+
+
     @Autowired
     public CategoryService(ICategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+
     }
+
     @Override
     public void deleteById(UUID id) {
         categoryRepository.deleteById(id);
     }
+
     @Override
     public List<CategoryDto> findAll() {
         return categoryRepository.findAll()
@@ -33,21 +38,25 @@ public class CategoryService implements ICategoryService {
                 .map(category -> modelMapper.map(category, CategoryDto.class))
                 .collect(Collectors.toList());
     }
+
     @Override
     public Optional<CategoryDto> findById(UUID id) {
         Optional<Category> category = categoryRepository.findById(id);
         return category.map(result -> modelMapper.map(result, CategoryDto.class));
     }
+
     @Override
     public CategoryDto save(CategoryDto categoryDto) {
         Category category = new Category();
         setCategory(category, categoryDto);
         return modelMapper.map(categoryRepository.save(category), CategoryDto.class);
     }
+
     public void setCategory(Category category, CategoryDto categoryDto) {
         category.setName(categoryDto.getName());
         category.setImage(categoryDto.getImage());
     }
+
     @Override
     public CategoryDto update(CategoryDto categoryDto, UUID id) {
         Category category = categoryRepository.findById(id).orElse(new Category());

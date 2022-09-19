@@ -37,7 +37,7 @@ public class OrderDetail {
      *   thông tin order (id)
      *   nhiều orderDetail thì có chung 1 order
      * */
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "order_id")
     private Order order;
 

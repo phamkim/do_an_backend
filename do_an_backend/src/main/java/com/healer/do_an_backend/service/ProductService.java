@@ -1,10 +1,11 @@
 package com.healer.do_an_backend.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.healer.do_an_backend.dao.ICategoryRepository;
 import com.healer.do_an_backend.dao.IProductRepository;
+import com.healer.do_an_backend.dto.OrderDetailDto;
 import com.healer.do_an_backend.dto.ProductDto;
 import com.healer.do_an_backend.entities.Product;
-import com.healer.do_an_backend.service.CategoryService;
 import com.healer.do_an_backend.service.Interface.IProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class ProductService implements IProductService {
     private ModelMapper modelMapper;
     private final IProductRepository productRepository;
     private final ICategoryRepository categoryRepository;
+
 
     @Autowired
     public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository) {
@@ -61,11 +63,11 @@ public class ProductService implements IProductService {
 
     public void setProduct(Product product, ProductDto productDto) {
         product.setName(productDto.getName());
-        product.setImage(productDto.getImage());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setQuantity(productDto.getQuantity());
         product.setDiscount(productDto.getDiscount());
+        product.setImages(productDto.getImages());
         if (!ObjectUtils.isEmpty(productDto.getCategory())) {
             categoryRepository.findById(productDto.getCategory().getId()).map(category -> {
                 product.setCategory(category);

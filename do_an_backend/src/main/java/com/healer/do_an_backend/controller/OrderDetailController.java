@@ -1,7 +1,9 @@
 package com.healer.do_an_backend.controller;
 
-import com.healer.backend.dto.OrderDetailDto;
-import com.healer.backend.service.Interface.IOrderDetailService;
+import com.healer.do_an_backend.dto.OrderDetailDto;
+import com.healer.do_an_backend.dto.UserDto;
+import com.healer.do_an_backend.entities.ResponseObject;
+import com.healer.do_an_backend.service.Interface.IOrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,39 +27,68 @@ public class OrderDetailController {
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDetailDto>> findAll() {
-        return new ResponseEntity<>(orderDetailService.findAll(), HttpStatus.OK);
+    public ResponseEntity<ResponseObject> findAll() {
+        try {
+            List<OrderDetailDto> result = orderDetailService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDetailDto> findById(@PathVariable UUID id) {
-        Optional<OrderDetailDto> orderDetailDto = orderDetailService.findById(id);
-        return orderDetailDto.map(result -> new ResponseEntity<>(result, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> findById(@PathVariable UUID id) {
+        try {
+            Optional<OrderDetailDto> result = orderDetailService.findById(id);
+            if (result.isPresent()) {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order detail found", result));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PostMapping
-    public ResponseEntity<?> insert(@RequestBody @Valid OrderDetailDto orderDetailDto) {
-        OrderDetailDto result = orderDetailService.save(orderDetailDto);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<ResponseObject> insert(@RequestBody @Valid OrderDetailDto orderDetailDto) {
+        try {
+            OrderDetailDto result = orderDetailService.save(orderDetailDto);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody @Valid OrderDetailDto orderDetailDto, @PathVariable UUID id) {
-        Optional<OrderDetailDto> orderDetailDtoOptional = orderDetailService.findById(id);
-        return orderDetailDtoOptional.map(e -> {
-            OrderDetailDto result = orderDetailService.update(orderDetailDto, id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> update(@RequestBody @Valid OrderDetailDto orderDetailDto, @PathVariable UUID id) {
+        try {
+            Optional<OrderDetailDto> orderDetail = orderDetailService.findById(id);
+            if (orderDetail.isPresent()) {
+                OrderDetailDto result = orderDetailService.update(orderDetailDto, id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", result));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order detail founded", orderDetail));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<OrderDetailDto> deleteById(@PathVariable UUID id) {
-        Optional<OrderDetailDto> orderDetailDto = orderDetailService.findById(id);
-        return orderDetailDto.map(result -> {
-            orderDetailService.deleteById(id);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<ResponseObject> deleteById(@PathVariable UUID id) {
+        try {
+            Optional<OrderDetailDto> orderDetail = orderDetailService.findById(id);
+            if (orderDetail.isPresent()) {
+                orderDetailService.deleteById(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "query successfully", orderDetail));
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("ok", "no order detail founded", orderDetail));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
